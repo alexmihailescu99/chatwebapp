@@ -25,6 +25,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     private AuthenticationManager authenticationManager;
 
     public JWTAuthenticationFilter(AuthenticationManager authenticationManager) {
+        super.setAuthenticationFailureHandler(new JWTAuthenticationFailureHandler());
         this.authenticationManager = authenticationManager;
         setFilterProcessesUrl("/api/user/login");
     }
@@ -56,7 +57,10 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                 .withSubject(((UserDetails)auth.getPrincipal()).getUsername())
                 .withExpiresAt(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
                 .sign(HMAC512(SECRET_KEY.getBytes()));
-        // Add Authorization Bearer JWTtoken
-        res.addHeader(HEADER_STRING, TOKEN_PREFIX + JWTtoken);
+        // Return the JWT token as an object
+        JWTToken token = new JWTToken(JWTtoken);
+        String json = new ObjectMapper().writeValueAsString(token);
+        res.getWriter().write(json);
+        res.flushBuffer();
     }
 }

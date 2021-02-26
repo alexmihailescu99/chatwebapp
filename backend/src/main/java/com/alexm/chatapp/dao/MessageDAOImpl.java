@@ -42,4 +42,15 @@ public class MessageDAOImpl implements MessageDAO {
         List<Message> res = q.getResultList();
         return (!res.isEmpty()) ? res : null;
     }
+
+    @Override
+    public List<Message> findDiscussion(User sender, User receiver) {
+        Session currSession = entityManager.unwrap(Session.class);
+        String queryString = "from Message m where (m.sender = :sender and m.receiver = :receiver) or (m.sender = :receiver and m.receiver = :sender) order by date asc ";
+        Query q = currSession.createQuery(queryString);
+        q.setParameter("sender", sender);
+        q.setParameter("receiver", receiver);
+        List<Message> res = q.getResultList();
+        return (!res.isEmpty()) ? res : null;
+    }
 }

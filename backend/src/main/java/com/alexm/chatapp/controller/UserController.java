@@ -9,8 +9,12 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/user")
+@CrossOrigin(origins = "http://localhost:3000")
 public class UserController {
 
     @Autowired
@@ -26,12 +30,24 @@ public class UserController {
 
     @GetMapping("/testUser")
     public ResponseEntity<String> testUser() {
+//        System.out.println("TESTUSER");
         String user = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
+    @GetMapping("/findAll")
+    public ResponseEntity<ArrayList<User>> getUsers() {
+        String user = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        List<User> users = userDAO.findAll();
+        for (User u : users) {
+            u.setPassword(null);
+//            System.out.println(u);
+        }
+        return new ResponseEntity<>((ArrayList<User>)users, HttpStatus.OK);
+    }
+
     @PostMapping("/register")
-    public ResponseEntity<String> register(User user) {
+    public ResponseEntity<String> register(@RequestBody User user) {
         StringBuilder responseMessage = new StringBuilder();
         // Build the errors
         // This should be checked on the front-end, but double checking can't hurt
