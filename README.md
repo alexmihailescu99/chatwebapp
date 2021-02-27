@@ -12,7 +12,7 @@
 <p><strong>POST</strong> /api/user -- registers a new user(returns error if it already exists)</p>
 <p><strong>POST</strong> /api/login - logins user</p>
 <p><strong>POST</strong> /api/message -- sends a message</p>
-<p><strong>GET</strong> /api/message (Query parameters : senderName & receiverName) -- returns conversation between 2 users(401 if unauthenticated,
+<p><strong>GET</strong>  /api/message (Query parameters : senderName & receiverName) -- returns conversation between 2 users(401 if unauthenticated,
 					    403 if someone not part of the conversaation tries to access it)</p>
 
 # App layout
