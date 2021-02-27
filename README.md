@@ -9,10 +9,11 @@
 # Back-end endpoints
 <p> <strong>GET</strong>  /api/user -- returns all users(returns 401 if unauthenticated)</p>
 <p><strong>GET</strong> /api/user/test -- tests current user(returns 401 if unauthenticated)</p>
-<p>MySQL Database with <strong>secured</strong> passwords</p>
-<p><strong>Role-based</strong> authentication(<strong>User</strong> & <strong>Admin</strong>, but can easily be extended to any number)</p>
-<p>Admin panel for adding/editing products(the entire web app can be controlled through the UI, no need to dive into the code)</p>
-<p>All content served over <strong>HTTPS</strong></p>
+<p><strong>POST</strong> /api/user -- registers a new user(returns error if it already exists)</p>
+<p><strong>POST</strong> /api/login - logins user</p>
+<p><strong>POST</strong> /api/message -- sends a message</p>
+<p><strong>GET</strong> /api/message?senderName=xxx&receiverName=xxx -- returns conversation between 2 users(401 if unauthenticated,
+					    403 if someone not part of the conversaation tries to access it)</p>
 
 # App layout
 ![image](https://user-images.githubusercontent.com/14853367/109384904-a9beac00-78f8-11eb-8511-fe7fe264989a.jpeg)
