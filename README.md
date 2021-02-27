@@ -11,9 +11,9 @@
 <p><strong>GET</strong>  /api/user/test -- tests current user(returns 401 if unauthenticated)</p>
 <p><strong>POST</strong> /api/user -- registers a new user(returns error if it already exists)</p>
 <p><strong>POST</strong> /api/login - logins user</p>
-<p><strong>POST</strong> /api/message -- sends a message</p>
 <p><strong>GET</strong>  /api/message (Query parameters : senderName & receiverName) -- returns conversation between 2 users(401 if unauthenticated,
 					    403 if someone not part of the conversaation tries to access it)</p>
+<p><strong>POST</strong> /api/message -- sends a message</p>
 
 # App layout
 ![image](https://user-images.githubusercontent.com/14853367/109384904-a9beac00-78f8-11eb-8511-fe7fe264989a.jpeg)
