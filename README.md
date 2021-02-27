@@ -14,8 +14,6 @@
 <p>Admin panel for adding/editing products(the entire web app can be controlled through the UI, no need to dive into the code)</p>
 <p>All content served over <strong>HTTPS</strong></p>
 
-# Product page
-![image](https://user-images.githubusercontent.com/14853367/105648119-5fd64680-5eb2-11eb-9aa8-4a42dd956fa6.png)
-
-# Product database
-![image](https://user-images.githubusercontent.com/14853367/105648155-a88dff80-5eb2-11eb-9d08-409fa3466826.png)
+# App layout
+![image]((https://user-images.githubusercontent.com/14853367/109384904-a9beac00-78f8-11eb-8511-fe7fe264989a.jpeg))
+![image](https://user-images.githubusercontent.com/14853367/109385008-5436cf00-78f9-11eb-91d4-c6fb467048a2.jpeg)
