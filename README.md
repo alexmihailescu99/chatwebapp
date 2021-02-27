@@ -15,5 +15,5 @@
 <p>All content served over <strong>HTTPS</strong></p>
 
 # App layout
-![image]((https://user-images.githubusercontent.com/14853367/109384904-a9beac00-78f8-11eb-8511-fe7fe264989a.jpeg))
+![image](https://user-images.githubusercontent.com/14853367/109384904-a9beac00-78f8-11eb-8511-fe7fe264989a.jpeg)
 ![image](https://user-images.githubusercontent.com/14853367/109385008-5436cf00-78f9-11eb-91d4-c6fb467048a2.jpeg)
