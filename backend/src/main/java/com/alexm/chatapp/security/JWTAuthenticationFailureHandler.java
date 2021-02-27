@@ -12,5 +12,6 @@ public class JWTAuthenticationFailureHandler implements AuthenticationFailureHan
     @Override
     public void onAuthenticationFailure(HttpServletRequest req, HttpServletResponse res, AuthenticationException e) throws IOException, ServletException {
         res.setStatus(401);
+        res.getWriter().write(e.getMessage());
     }
 }

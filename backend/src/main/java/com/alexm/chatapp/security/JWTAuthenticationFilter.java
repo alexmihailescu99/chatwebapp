@@ -4,6 +4,7 @@ import com.alexm.chatapp.entity.UserCredentials;
 import com.auth0.jwt.JWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -27,25 +28,25 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     public JWTAuthenticationFilter(AuthenticationManager authenticationManager) {
         super.setAuthenticationFailureHandler(new JWTAuthenticationFailureHandler());
         this.authenticationManager = authenticationManager;
-        setFilterProcessesUrl("/api/user/login");
+        setFilterProcessesUrl("/api/login");
     }
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest req,
                                                 HttpServletResponse res) throws AuthenticationException {
-        try {
-            // Create a POJO from the JSON
-            UserCredentials userCredentials = new ObjectMapper().readValue(req.getInputStream(), UserCredentials.class);
-            return authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(
-                            userCredentials.getUsername(),
-                            userCredentials.getPassword(),
-                            new ArrayList<>()
-                    ));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+            try {
+                // Create a POJO from the JSON
+                UserCredentials userCredentials = new ObjectMapper().readValue(req.getInputStream(), UserCredentials.class);
+                return authenticationManager.authenticate(
+                        new UsernamePasswordAuthenticationToken(
+                                userCredentials.getUsername(),
+                                userCredentials.getPassword(),
+                                new ArrayList<>()
+                        ));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
-    }
 
     @Override
     protected void successfulAuthentication(HttpServletRequest req,

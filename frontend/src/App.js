@@ -25,7 +25,7 @@ class App extends React.Component{
         }
       }
     }
-    axios.get(backEndUrl + "/user/testUser", options)
+    axios.get(backEndUrl + "/user/test", options)
       .then(res => {
         //alert(res.data);
       })

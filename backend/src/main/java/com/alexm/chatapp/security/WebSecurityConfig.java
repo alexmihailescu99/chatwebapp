@@ -24,12 +24,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/api/user/test").permitAll()
-                .antMatchers("/api/user/register").permitAll()
-                .antMatchers("/api/user/login").permitAll()
                 // I really shouldn't have to do this, TO BE CHECKED
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                .antMatchers("/api/user/testUser").authenticated()
+                .antMatchers(HttpMethod.POST, "/api/login").permitAll()
+                .antMatchers(HttpMethod.POST, "/api/user").permitAll()
                 .antMatchers("/api/**").authenticated()
                 .and()
                 // Add the JWT filters

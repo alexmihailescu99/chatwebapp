@@ -14,6 +14,11 @@ export default class LoginPage extends React.Component {
         this.onSubmit = this.onSubmit.bind(this);
     }
 
+    componentDidMount() {
+        if (localStorage.getItem("currentUser") !== "null") {
+            window.location.href = "/";
+        }
+    }
     onChangeUserName(e) {
         this.setState({
             username: e.target.value
@@ -32,18 +37,23 @@ export default class LoginPage extends React.Component {
             username: this.state.username,
             password: this.state.password,
         });
-        axios.post(backEndUrl + "/user/login", object)
+        axios.post(backEndUrl + "/login", object)
         .then((res) => {
             //alert(res.data.token);
             // Store the JWT token(bad practice as it could get compromised, but it's just a proof of concept app)
             localStorage.setItem("jwtToken", res.data.token);
             localStorage.setItem("currentUser", this.state.username);
+            alert("Welcome, " + this.state.username);
             window.location.href = "/";
         })
         .catch((err) => {
             if (err.response.status === 401) {
-                alert("Wrong credentials");
-                window.location.reload();
+                alert("Wrong username or password");
+                this.setState({
+                    username: "",
+                    password: ""
+                });
+                //window.location.reload();
             }
             //alert(this.state.username + " " + this.state.password);
         })

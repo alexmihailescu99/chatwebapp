@@ -27,53 +27,33 @@ public class MessageController {
     @Autowired
     private UserDAO userDAO;
 
-    @PostMapping("/send")
+    // Sends a message
+    @PostMapping
     public ResponseEntity<String> send(@RequestBody MessageBody message) {
-//        System.out.println("Got the send request from front-end");
-        StringBuilder responseMessage = new StringBuilder();
         User sender = userDAO.findById(message.getSenderId()), receiver = userDAO.findById(message.getReceiverId());
-        if (message.getSenderId() <= 0) responseMessage.append("Wrong sender id\n");
-        if (message.getReceiverId() <= 0) responseMessage.append("Wrong receiver id\n");
-        if (message.getBody().isEmpty()) responseMessage.append("Message is empty\n");
-        if (sender == null) responseMessage.append("Sender does not exist\n");
-        if (receiver == null) responseMessage.append("Receiver does not exist\n");
-//        System.out.println(message.getBody());
-        // If there were no errors
-        if (responseMessage.length() == 0) {
-            messageDAO.add(new Message(sender, receiver, message.getBody(), new Timestamp(message.getDate())));
-        }
-        return (responseMessage.length() == 0) ? new ResponseEntity<>( "Message sent", HttpStatus.OK)
-                : new ResponseEntity<>(responseMessage.toString(), HttpStatus.BAD_REQUEST);
+        if (message.getSenderId() <= 0 || sender == null)
+            return new ResponseEntity<>("Bad sender id\n", HttpStatus.BAD_REQUEST);
+        if (message.getReceiverId() <= 0 || receiver == null)
+            return new ResponseEntity<>("Bad receiver id\n", HttpStatus.BAD_REQUEST);
+        if (message.getBody().isEmpty())
+            return new ResponseEntity<>("Message is empty\n", HttpStatus.BAD_REQUEST);
+
+        messageDAO.add(new Message(sender, receiver, message.getBody(), new Timestamp(message.getDate())));
+        return  new ResponseEntity<>( "Message sent", HttpStatus.OK);
     }
 
-    @GetMapping("/{username}")
-    public ResponseEntity<ArrayList<Message>> getUserMessages(@PathVariable String username) {
-        String currUser = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        // Allow only the user to access their own messages
-        if (!currUser.equals(username)) return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
-        User user = userDAO.findByUsername(username);
-        if (user == null) return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-        ArrayList<Message> messages = (ArrayList<Message>)messageDAO.findByReceiver(user);
-        if (messages == null) return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-        for (Message msg : messages) {
-            msg.getSender().setPassword(null);
-            msg.getReceiver().setPassword(null);
-        }
-        return new ResponseEntity<>(messages, HttpStatus.OK);
-    }
-
-    @GetMapping("/discussion")
+    @GetMapping
     public ResponseEntity<ArrayList<Message>> getDiscussion(@RequestParam String senderName, @RequestParam String receiverName) {
         String currUser = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-//        System.out.println("Curr user: " + currUser);
-//        System.out.println(senderName + " " + receiverName);
         // Allow only the user to access their own messages
         if (!currUser.equals(senderName) && !currUser.equals(receiverName)) {
             return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
         }
+
         User sender = userDAO.findByUsername(senderName), receiver = userDAO.findByUsername(receiverName);
         ArrayList<Message> messages = (ArrayList<Message>)messageDAO.findDiscussion(sender, receiver);
         if (messages == null) return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+
         for (Message msg : messages) {
             msg.getSender().setPassword(null);
             msg.getReceiver().setPassword(null);

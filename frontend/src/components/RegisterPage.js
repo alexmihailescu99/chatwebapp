@@ -16,6 +16,12 @@ export default class RegisterPage extends React.Component {
         this.onSubmit = this.onSubmit.bind(this);
     }
 
+    componentDidMount() {
+        if (localStorage.getItem("currentUser") !== "null") {
+            window.location.href = "/";
+        }
+    }
+
     onChangeUserName(e) {
         this.setState({
             username: e.target.value

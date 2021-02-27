@@ -110,7 +110,7 @@ export default class MainPage extends React.Component {
         }
       
       } else window.location.href = "/login";
-      axios.get(backEndUrl + "/message/discussion", options)
+      axios.get(backEndUrl + "/message", options)
       .then(res => {
         this.setState({
           currDiscussion : Array.from(res.data)
@@ -141,7 +141,7 @@ export default class MainPage extends React.Component {
       
       } else window.location.href = "/login";
 
-          axios.get(backEndUrl + "/user/findAll", options)
+          axios.get(backEndUrl + "/user", options)
           .then((res) => {
               let usrArray = Array.from(res.data);
               this.setState({
@@ -152,7 +152,7 @@ export default class MainPage extends React.Component {
             this.setState({
               currentContactUsername : Array.from(this.userList())[this.state.currentContact].username
             })
-            axios.get(backEndUrl + "/message/discussion", options)
+            axios.get(backEndUrl + "/message", options)
             .then(res => {
               this.setState({
                 currDiscussion : Array.from(res.data)
@@ -199,8 +199,7 @@ export default class MainPage extends React.Component {
         currentContact : currentContactIndex,
         currentContactUsername : Array.from(this.userList())[currentContactIndex].username
       });
-      // alert(this.state.currentContactUsername)
-      axios.get(backEndUrl + "/message/discussion", options)
+      axios.get(backEndUrl + "/message", options)
       .then(res => {
         this.setState({
           currDiscussion : Array.from(res.data)
@@ -256,7 +255,7 @@ export default class MainPage extends React.Component {
       let receiver = this.state.users.find(user => this.state.currentContactUsername.trim() === user.username.trim());
       //alert(new Date().toLocaleString());
       //alert(sender.id + " " + receiver.id);
-       axios.post(backEndUrl + "/message/send", {
+       axios.post(backEndUrl + "/message", {
         senderId : sender.id,
         receiverId : receiver.id,
         body : this.state.messageBody,
@@ -264,7 +263,7 @@ export default class MainPage extends React.Component {
         inputPlaceholder : "Type here"
       }, options)
       .then(res => {
-        axios.get(backEndUrl + "/message/discussion", options2)
+        axios.get(backEndUrl + "/message", options2)
         .then(res => {
           this.setState({
             currDiscussion : Array.from(res.data),

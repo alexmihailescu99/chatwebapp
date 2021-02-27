@@ -23,47 +23,43 @@ public class UserController {
     @Autowired
     BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    @GetMapping("/test")
-    public ResponseEntity<String> test() {
-        return new ResponseEntity<>("Hello from the back-end", HttpStatus.OK);
-    }
-
-    @GetMapping("/testUser")
-    public ResponseEntity<String> testUser() {
-//        System.out.println("TESTUSER");
-        String user = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return new ResponseEntity<>(user, HttpStatus.OK);
-    }
-
-    @GetMapping("/findAll")
+    // Find all users
+    @GetMapping
     public ResponseEntity<ArrayList<User>> getUsers() {
         String user = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         List<User> users = userDAO.findAll();
         for (User u : users) {
             u.setPassword(null);
-//            System.out.println(u);
         }
         return new ResponseEntity<>((ArrayList<User>)users, HttpStatus.OK);
     }
 
-    @PostMapping("/register")
+    @GetMapping("/test")
+    public ResponseEntity<String> testUser() {
+        String user = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return new ResponseEntity<>(user, HttpStatus.OK);
+    }
+
+    @PostMapping
     public ResponseEntity<String> register(@RequestBody User user) {
-        StringBuilder responseMessage = new StringBuilder();
-        // Build the errors
         // This should be checked on the front-end, but double checking can't hurt
-        if (user.getUsername().length() < 4) responseMessage.append("User should be at least 4 characters\n");
-        if (user.getPassword().length() < 8) responseMessage.append("Password should have at least 8 characters\n");
-        if (user.getFullName().length() < 6) responseMessage.append("Full name is too short\n");
+        if (user.getUsername().length() < 4)
+            return new ResponseEntity<>("User should be at least 4 characters\n", HttpStatus.BAD_REQUEST);
+
+        if (user.getPassword().length() < 8)
+            return new ResponseEntity<>("Password should have at least 8 characters\n", HttpStatus.BAD_REQUEST);
+
+        if (user.getFullName().length() < 6)
+            return new ResponseEntity<>("Full name is too short\n", HttpStatus.BAD_REQUEST);
+
         // If the user exists, notify the front-end
-        if (userDAO.findByUsername(user.getUsername()) != null) responseMessage.append("User already exists\n");
+        if (userDAO.findByUsername(user.getUsername()) != null)
+            return new ResponseEntity<String>("User already exists", HttpStatus.BAD_REQUEST);
+
         // Encrypt the password
-        if (responseMessage.length() == 0) {
-            user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-            userDAO.add(user);
-        }
-        // If the string builder is empty, user is correct, else return bad request
-        return (responseMessage.length() == 0) ? new ResponseEntity<>(user.getUsername() + " added", HttpStatus.OK)
-            : new ResponseEntity<>(responseMessage.toString(), HttpStatus.BAD_REQUEST);
+        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        userDAO.add(user);
+        return new ResponseEntity<>(user.getUsername() + " added", HttpStatus.OK);
     }
 
 }
