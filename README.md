@@ -7,8 +7,8 @@
 <p>This GitHub repository contains the local version of the app</p>
 
 # Back-end endpoints
-<p> <strong>GET</strong>  /api/user -- returns all users(returns 401 if unauthenticated)</p>
-<p><strong>GET</strong> /api/user/test -- tests current user(returns 401 if unauthenticated)</p>
+<p> <strong>GET</strong> /api/user -- returns all users(returns 401 if unauthenticated)</p>
+<p><strong>GET</strong>  /api/user/test -- tests current user(returns 401 if unauthenticated)</p>
 <p><strong>POST</strong> /api/user -- registers a new user(returns error if it already exists)</p>
 <p><strong>POST</strong> /api/login - logins user</p>
 <p><strong>POST</strong> /api/message -- sends a message</p>
