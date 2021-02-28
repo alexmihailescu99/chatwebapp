@@ -1,4 +1,4 @@
-# Chat Web App - https://am-shopwebapp.herokuapp.com/
+# Chat Web App - https://am-chatwebapp.herokuapp.com/
 <p> Features RESTful back-end with stateless authentication using JWT tokens and custom filters written in Java & Spring</p>
 <p>The front-end was written in <strong>JavaScript</strong>, using the <strong>React.js</strong> framework.</p>
 <p>Fully encrypted user passwords using the bcrypt hashing function provided by Spring Security</p>
