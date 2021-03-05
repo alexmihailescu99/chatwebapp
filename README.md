@@ -9,7 +9,7 @@
 
 # Back-end endpoints
 <p> <strong>GET</strong> /api/user -- returns all users(returns 401 if unauthenticated)</p>
-<p><strong>GET</strong>  /api/user/test -- tests current user(returns 401 if unauthenticated)</p>
+<p><strong>GET</strong>  /api/user/test -- tests current user(returns 401 if unauthenticated)</p>(not super RESTful)
 <p><strong>POST</strong> /api/user -- registers a new user(returns error if it already exists)</p>
 <p><strong>POST</strong> /api/login - logins user</p>
 <p><strong>GET</strong>  /api/message (Query parameters : senderName & receiverName) -- returns conversation between 2 users(401 if unauthenticated,
