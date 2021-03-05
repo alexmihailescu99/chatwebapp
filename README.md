@@ -5,6 +5,7 @@
 <p>Almost real-time message refresh(no need for user refresh)</p>
 <p>The web app was deployed to <strong>Heroku</strong> as two separate projects that communicate with each other securely via HTTPS</p>
 <p>This GitHub repository contains the local version of the app</p>
+<p>For this project, I focused more on understanding & applying REST concepts</p>
 
 # Back-end endpoints
 <p> <strong>GET</strong> /api/user -- returns all users(returns 401 if unauthenticated)</p>
